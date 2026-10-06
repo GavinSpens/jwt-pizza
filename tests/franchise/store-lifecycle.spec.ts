@@ -3,7 +3,7 @@ import { randomString } from "../helpers";
 
 test("franchise manager can create and close a store", async ({ page }) => {
   const randomName = randomString();
-  await page.goto("http://localhost:5174/");
+  await page.goto("/");
   await page.getByRole("link", { name: "Login" }).click();
   await page.getByRole("textbox", { name: "Email address" }).fill("a@jwt.com");
   await page.getByRole("textbox", { name: "Email address" }).press("Tab");
@@ -18,7 +18,7 @@ test("franchise manager can create and close a store", async ({ page }) => {
     .getByRole("textbox", { name: "franchisee admin email" })
     .fill("a@jwt.com");
   await page.getByRole("button", { name: "Create" }).click();
-  await page.goto("http://localhost:5174/");
+  await page.goto("/");
   await page.getByRole("link", { name: "Franchise" }).click();
   await page.getByRole("button", { name: "Create store" }).click();
   await page.getByRole("textbox", { name: "store name" }).click();
@@ -32,7 +32,5 @@ test("franchise manager can create and close a store", async ({ page }) => {
     .getByRole("button", { name: "Close" })
     .click();
   await page.getByRole("button", { name: "Close" }).click();
-  await expect(
-    page.getByText("Everything you need to run an"),
-  ).toBeVisible();
+  await expect(page.getByText("Everything you need to run an")).toBeVisible();
 });

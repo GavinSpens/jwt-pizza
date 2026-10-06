@@ -3,7 +3,7 @@ import { randomString } from "../helpers";
 
 test("admin can create a franchise", async ({ page }) => {
   const randomName = randomString();
-  await page.goto("http://localhost:5174/");
+  await page.goto("/");
   await page.getByRole("link", { name: "Login" }).click();
   await page.getByRole("textbox", { name: "Email address" }).fill("a@jwt.com");
   await page.getByRole("textbox", { name: "Email address" }).press("Tab");
@@ -21,7 +21,9 @@ test("admin can create a franchise", async ({ page }) => {
   await page.getByRole("button", { name: "Create" }).click();
 
   await page.getByRole("textbox", { name: "Filter franchises" }).click();
-  await page.getByRole("textbox", { name: "Filter franchises" }).fill(randomName);
+  await page
+    .getByRole("textbox", { name: "Filter franchises" })
+    .fill(randomName);
   await page.getByRole("button", { name: "Submit" }).click();
   await expect(
     page.getByRole("cell", { name: randomName, exact: true }),
@@ -30,7 +32,7 @@ test("admin can create a franchise", async ({ page }) => {
 
 test("admin can close a franchise", async ({ page }) => {
   const randomName = randomString();
-  await page.goto("http://localhost:5174/");
+  await page.goto("/");
   await page.getByRole("link", { name: "Login" }).click();
   await page.getByRole("textbox", { name: "Email address" }).fill("a@jwt.com");
   await page.getByRole("textbox", { name: "Email address" }).press("Tab");
@@ -46,7 +48,9 @@ test("admin can close a franchise", async ({ page }) => {
     .fill("a@jwt.com");
   await page.getByRole("button", { name: "Create" }).click();
   await page.getByRole("textbox", { name: "Filter franchises" }).click();
-  await page.getByRole("textbox", { name: "Filter franchises" }).fill(randomName);
+  await page
+    .getByRole("textbox", { name: "Filter franchises" })
+    .fill(randomName);
   await page.getByRole("button", { name: "Submit" }).click();
   await page
     .getByRole("row", { name: randomName + " 常用名字 Close" })

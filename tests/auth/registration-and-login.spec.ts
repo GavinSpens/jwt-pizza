@@ -3,7 +3,7 @@ import { randomString } from "../helpers";
 
 test("new user can register", async ({ page }) => {
   const randomName = randomString();
-  await page.goto("http://localhost:5174/");
+  await page.goto("/");
   await page.getByRole("link", { name: "Register" }).click();
   await page.getByRole("textbox", { name: "Full name" }).fill(randomName);
   await page
@@ -18,7 +18,7 @@ test("new user can register", async ({ page }) => {
 
 test("registered user can log out and back in", async ({ page }) => {
   const randomName = randomString();
-  await page.goto("http://localhost:5174/");
+  await page.goto("/");
   await page.getByRole("link", { name: "Register" }).click();
   await page.getByRole("textbox", { name: "Full name" }).fill(randomName);
   await page

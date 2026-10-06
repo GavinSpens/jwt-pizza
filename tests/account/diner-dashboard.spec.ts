@@ -1,7 +1,7 @@
 import { test, expect } from "playwright-test-coverage";
 
 test("diner can open their dashboard", async ({ page }) => {
-  await page.goto("http://localhost:5174/");
+  await page.goto("/");
   await page.getByRole("link", { name: "Login" }).click();
   await page.getByRole("textbox", { name: "Email address" }).fill("a@jwt.com");
   await page.getByRole("textbox", { name: "Email address" }).press("Tab");
@@ -12,7 +12,7 @@ test("diner can open their dashboard", async ({ page }) => {
 });
 
 test("diner dashboard shows the signed-in email", async ({ page }) => {
-  await page.goto("http://localhost:5174/");
+  await page.goto("/");
   await page.getByRole("link", { name: "Login" }).click();
   await page.getByRole("textbox", { name: "Email address" }).fill("a@jwt.com");
   await page.getByRole("textbox", { name: "Email address" }).press("Tab");
