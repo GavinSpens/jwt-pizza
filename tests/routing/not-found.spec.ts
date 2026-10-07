@@ -1,4 +1,4 @@
-import { test, expect } from "playwright-test-coverage";
+import { test, expect } from "../testSetup";
 
 test("unknown route displays the not-found page", async ({ page }) => {
   await page.goto("/notfound");

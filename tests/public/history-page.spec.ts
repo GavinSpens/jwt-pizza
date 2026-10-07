@@ -1,4 +1,4 @@
-import { test, expect } from "playwright-test-coverage";
+import { test, expect } from "../testSetup";
 
 test("visitor can read the pizza shop history", async ({ page }) => {
   await page.goto("/");

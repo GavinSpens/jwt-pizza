@@ -1,25 +1,19 @@
-import { test, expect } from "playwright-test-coverage";
-import { randomString } from "../helpers";
+import { test, expect } from "../testSetup";
+import {
+  createFranchise,
+  login,
+  mockAdminApi,
+  randomString,
+} from "../helpers";
 
-test("franchise manager can create and close a store", async ({ page }) => {
+test("franchise manager can create and close a store", async ({ page, api }) => {
   const randomName = randomString();
+  mockAdminApi(api);
   await page.goto("/");
-  await page.getByRole("link", { name: "Login" }).click();
-  await page.getByRole("textbox", { name: "Email address" }).fill("a@jwt.com");
-  await page.getByRole("textbox", { name: "Email address" }).press("Tab");
-  await page.getByRole("textbox", { name: "Password" }).fill("admin");
-  await page.getByRole("textbox", { name: "Password" }).press("Enter");
+  await login(page, "a@jwt.com", "admin");
   await page.getByRole("link", { name: "Admin" }).click();
-  await page.getByRole("button", { name: "Add Franchise" }).click();
-  await page.getByRole("textbox", { name: "franchise name" }).click();
-  await page.getByRole("textbox", { name: "franchise name" }).fill(randomName);
-  await page.getByRole("textbox", { name: "franchise name" }).press("Tab");
-  await page
-    .getByRole("textbox", { name: "franchisee admin email" })
-    .fill("a@jwt.com");
-  await page.getByRole("button", { name: "Create" }).click();
-  await page.goto("/");
-  await page.getByRole("link", { name: "Franchise" }).click();
+  await createFranchise(page, randomName, "a@jwt.com");
+  await page.goto("/franchise-dashboard");
   await page.getByRole("button", { name: "Create store" }).click();
   await page.getByRole("textbox", { name: "store name" }).click();
   await page.getByRole("textbox", { name: "store name" }).fill(randomName);

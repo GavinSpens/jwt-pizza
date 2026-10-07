@@ -1,23 +1,43 @@
-import { test, expect } from "playwright-test-coverage";
+import { test, expect } from "../testSetup";
+import { login } from "../helpers";
+
+test.beforeEach(async ({ api }) => {
+  api.mock("PUT", "/api/auth", ({ body }) => {
+    expect(body).toEqual({
+      email: "a@jwt.com",
+      password: "admin",
+    });
+
+    return {
+      body: {
+        user: {
+          id: "1",
+          name: "常用名字",
+          email: "a@jwt.com",
+          roles: [{ role: "diner" }],
+        },
+        token: "mock-diner-token",
+      },
+    };
+  });
+
+  api.mockJson("GET", "/api/order", {
+    id: "1",
+    dinerId: "1",
+    orders: [],
+  });
+});
 
 test("diner can open their dashboard", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("link", { name: "Login" }).click();
-  await page.getByRole("textbox", { name: "Email address" }).fill("a@jwt.com");
-  await page.getByRole("textbox", { name: "Email address" }).press("Tab");
-  await page.getByRole("textbox", { name: "Password" }).fill("admin");
-  await page.getByRole("textbox", { name: "Password" }).press("Enter");
+  await login(page, "a@jwt.com", "admin");
   await page.getByRole("link", { name: "常" }).click();
   await expect(page.getByText("常用名字")).toBeVisible();
 });
 
 test("diner dashboard shows the signed-in email", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("link", { name: "Login" }).click();
-  await page.getByRole("textbox", { name: "Email address" }).fill("a@jwt.com");
-  await page.getByRole("textbox", { name: "Email address" }).press("Tab");
-  await page.getByRole("textbox", { name: "Password" }).fill("admin");
-  await page.getByRole("textbox", { name: "Password" }).press("Enter");
+  await login(page, "a@jwt.com", "admin");
   await page.getByRole("link", { name: "常" }).click();
   await expect(page.getByText("a@jwt.com")).toBeVisible();
 });
