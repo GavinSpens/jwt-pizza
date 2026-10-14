@@ -19,12 +19,8 @@ test("franchise manager can create and close a store", async ({ page, api }) => 
   await page.getByRole("textbox", { name: "store name" }).fill(randomName);
   await page.getByRole("button", { name: "Create" }).click();
   await expect(page.getByRole("cell", { name: randomName })).toBeVisible();
-  await page
-    .getByRole("table")
-    .locator("tr")
-    .filter({ hasText: randomName })
-    .getByRole("button", { name: "Close" })
-    .click();
-  await page.getByRole("button", { name: "Close" }).click();
-  await expect(page.getByText("Everything you need to run an")).toBeVisible();
+  await page.getByRole('link', { name: 'Admin' }).click();
+  await expect(page.getByRole('cell', { name: randomName }).nth(1)).toBeVisible();
+  await page.getByRole('row', { name: randomName + ' 0 ₿ Close' }).getByRole('button').click();
+  await page.getByRole('button', { name: 'Close' }).click();
 });

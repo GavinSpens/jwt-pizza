@@ -64,6 +64,7 @@ export function mockAdminApi(api: ApiMocks): void {
     email: "a@jwt.com",
     roles: [{ role: "admin" }],
   });
+  api.mockJson("GET", "/api/user", { users: [], more: false });
 
   api.mock("GET", "/api/franchise", ({ url }) => {
     const filter = new URL(url).searchParams
